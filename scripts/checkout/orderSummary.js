@@ -8,6 +8,7 @@ import {
 import { products, getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 //default export
 //import dayjs from "https://unpkg.com/dayjs@1.11.10/dayjs.min.js";
@@ -136,7 +137,7 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
     if (container) {
       container.remove();
 
-      updateCartQuantity();
+    renderPaymentSummary();
     }
   });
 });
@@ -195,6 +196,7 @@ document.querySelectorAll('.js-delivery-option').forEach((element) => {
     const {productId, deliveryOptionId} = element.dataset;
     updateDeliveryOption(productId, deliveryOptionId);
     renderOrderSummary();
+    renderPaymentSummary();
   })  
 })
 
