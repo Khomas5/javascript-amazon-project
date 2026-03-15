@@ -1,7 +1,6 @@
-import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
-import {products} from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
-
+import { cart, addToCart, calculateCartQuantity } from "../data/cart.js";
+import { products } from "../data/products.js";
+import { formatCurrency } from "./utils/money.js";
 
 let productsHTML = "";
 
@@ -21,14 +20,14 @@ products.forEach((product) => {
 
           <div class="product-rating-container">
             <img class="product-rating-stars"
-              src="images/ratings/rating-${product.rating.stars * 10}.png">
+              src="${product.getStarsUrl()}">
             <div class="product-rating-count link-primary">
               ${product.rating.count}
             </div>
           </div>
 
           <div class="product-price">
-           $${formatCurrency(product.priceCents)}
+         ${product.getPrice()}
           </div>
 
           <div class="product-quantity-container">
@@ -62,18 +61,14 @@ products.forEach((product) => {
         `;
 });
 
-
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-
-function updateCartQuantity(){
-   
+function updateCartQuantity() {
   const cartQuantity = calculateCartQuantity();
-    
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
- 
-    updateCartQuantity();
 
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+
+  updateCartQuantity();
 }
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
@@ -82,5 +77,5 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 
     addToCart(productId);
     updateCartQuantity();
-     });
+  });
 });
