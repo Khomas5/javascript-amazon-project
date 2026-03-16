@@ -111,3 +111,8 @@ console.log(businessCart instanceof Cart);
 
 
 // inheritance == lets us reuse code between classes
+// Polymorphism = use a method without knowing the class
+//built in classes= classes that are provided by the language
+// Date() 
+// .toLocaleTimeString() - gives the current time
+// arrow fnctions do not change the value of "this"

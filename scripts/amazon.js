@@ -83,4 +83,3 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 });
 
 
-// Polymorphism = use a method without knowing the class
