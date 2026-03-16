@@ -108,3 +108,6 @@ console.log(cart);
 console.log(businessCart);
 
 console.log(businessCart instanceof Cart);
+
+
+// inheritance == lets us reuse code between classes
