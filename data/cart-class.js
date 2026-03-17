@@ -1,4 +1,4 @@
-class Cart {
+export class Cart {
   cartItems;
   #localStorageKey;
   //same - localStorageKey = undefined;
@@ -101,13 +101,13 @@ class Cart {
   }
 }
 
-const cart = new Cart("cart-oop");
-const businessCart = new Cart("cart-business ");
+export const cart = new Cart("cart");
+//const businessCart = new Cart("cart-business ");
 
-console.log(cart);
-console.log(businessCart);
+// console.log(cart);
+// console.log(businessCart);
 
-console.log(businessCart instanceof Cart);
+// console.log(businessCart instanceof Cart);
 
 
 // inheritance == lets us reuse code between classes
