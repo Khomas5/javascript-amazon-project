@@ -1,7 +1,6 @@
-import {formatCurrency} from '../scripts/utils/money.js';
+import { formatCurrency } from "../scripts/utils/money.js";
 
- export function getProduct(productId){
-  
+export function getProduct(productId) {
   let matchingProduct;
 
   products.forEach((product) => {
@@ -19,7 +18,7 @@ export class Product {
   rating;
   priceCents;
 
-  constructor(productDetails){
+  constructor(productDetails) {
     this.id = productDetails.id;
     this.image = productDetails.image;
     this.name = productDetails.name;
@@ -27,56 +26,55 @@ export class Product {
     this.priceCents = productDetails.priceCents;
   }
 
-  getStarsUrl(){
-  return `images/ratings/rating-${this.rating.stars * 10}.png`;
-  }
-  
-  getPrice(){
-  return `$${formatCurrency(this.priceCents)}`;
+  getStarsUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
 
-  extraInfoHTML(){
-    return '';
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+
+  extraInfoHTML() {
+    return "";
   }
 }
 
-export class Clothing extends Product{
+export class Clothing extends Product {
   sizeChartLink;
 
-  constructor(productDetails){
-  super(productDetails);
-  this.sizeChartLink = productDetails.sizeChartLink;
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
   }
 
-  extraInfoHTML(){
-  //  super.extraInfoHTML();
+  extraInfoHTML() {
+    //  super.extraInfoHTML();
     return `
       <a href="${this.sizeChartLink}" target="_blank">Size chart</a>
     `;
   }
 }
 
-export class Appliance extends Product{
-    instructionsLink;
-    warrantyLink;
+export class Appliance extends Product {
+  instructionsLink;
+  warrantyLink;
 
-    constructor(productDetails){
-      super(productDetails);
-      this.instructionsLink = productDetails.instructionsLink;
-      this.warrantyLink = productDetails.warrantyLink;
-    }
+  constructor(productDetails) {
+    super(productDetails);
+    this.instructionsLink = productDetails.instructionsLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
 
-    extraInfoHTML(){
-      return `
+  extraInfoHTML() {
+    return `
       <a href="${this.instructionsLink}" target="_blank">
       Instructions 
       </a>
       <a href="${this.warrantyLink}" target="_blank">
       Warranty 
       </a>
-      `
-    }
-
+      `;
+  }
 }
 /*
 // built in class
@@ -108,8 +106,33 @@ const object3 = {
 
 object3.method();
 */
+export let products = [];
+
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener("load", () => {
+  products = JSON.parse(xhr.response).map((productDetails) => {
+  if(productDetails.type === 'clothing'){
+   return new Clothing(productDetails);
+  } else if (productDetails.type === 'appliance'){
+    return new Appliance(productDetails);
+  }
+
+ return new Product(productDetails);
+});
+
+console.log('load products')
+
+fun();
+  });
+
+  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.send();
+}
 
 
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -790,3 +813,5 @@ export const products = [
 
  return new Product(productDetails);
 });
+
+*/
