@@ -4,13 +4,10 @@ import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { loadCart, loadCartFetch } from "../data/cart.js";
 import { loadProductsFetch } from "../data/products.js";
 
-
 async function loadPage() {
   try {
-    // throw 'error1';
-    await loadProductsFetch();
-
-   await loadCartFetch();
+  
+    await Promise.all([loadProductsFetch(), loadCartFetch()]);
   } catch (error) {
     console.log("Uexpected error. Please try again later");
   }
