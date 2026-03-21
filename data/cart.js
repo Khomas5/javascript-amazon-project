@@ -95,6 +95,11 @@ export function updateDeliveryOption(productId, deliveryOptionId){
   saveToStorage();
 }
 
+export function  resetCart(){
+  cart = [];
+  saveToStorage();
+}
+
 
 
 export function loadCart(fun) {
