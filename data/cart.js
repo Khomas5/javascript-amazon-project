@@ -95,11 +95,6 @@ export function updateDeliveryOption(productId, deliveryOptionId){
   saveToStorage();
 }
 
-export function  resetCart(){
-  cart = [];
-  saveToStorage();
-}
-
 
 
 export function loadCart(fun) {
@@ -109,6 +104,8 @@ export function loadCart(fun) {
 console.log(xhr.response)
 fun();
 });
+
+
 
   xhr.open("GET", "https://supersimplebackend.dev/cart");
   xhr.send();

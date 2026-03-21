@@ -1,14 +1,13 @@
 export class Cart {
   cartItems;
   #localStorageKey;
-  //same - localStorageKey = undefined;
 
   constructor(localStorageKey) {
     this.#localStorageKey = localStorageKey;
-    this.#loadFromStorage();
+    this.loadFromStorage();
   }
 
-  #loadFromStorage() {
+  loadFromStorage() {
     this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
     if (!this.cartItems) {
@@ -54,65 +53,57 @@ export class Cart {
   }
 
   removeFromCart(productId) {
-    const newCart = [];
-    this.cartItems.forEach((cartItem) => {
-      if (cartItem.productId !== productId) {
-        newCart.push(cartItem);
-      }
-    });
-    this.cartItems = newCart;
+    this.cartItems = this.cartItems.filter(
+      (item) => item.productId !== productId
+    );
 
     this.saveToStorage();
   }
 
   calculateCartQuantity() {
-    let cartQuantity = 0;
+    let total = 0;
 
-    this.cartItems.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
+    this.cartItems.forEach((item) => {
+      total += item.quantity;
     });
-    return cartQuantity;
+
+    return total;
   }
+
   updateQuantity(productId, newQuantity) {
-    let matchingItem;
+    const item = this.cartItems.find(
+      (cartItem) => cartItem.productId === productId
+    );
 
-    this.cartItems.forEach((cartItem) => {
-      if (productId === cartItem.productId) {
-        matchingItem = cartItem;
-      }
-    });
-    matchingItem.quantity = newQuantity;
-
-    this.saveToStorage();
+    if (item) {
+      item.quantity = newQuantity;
+      this.saveToStorage();
+    }
   }
 
   updateDeliveryOption(productId, deliveryOptionId) {
-    let matchingItem;
+    const item = this.cartItems.find(
+      (cartItem) => cartItem.productId === productId
+    );
 
-    this.cartItems.forEach((cartItem) => {
-      if (productId === cartItem.productId) {
-        matchingItem = cartItem;
-      }
-    });
+    if (item) {
+      item.deliveryOptionId = deliveryOptionId;
+      this.saveToStorage();
+    }
+  }
 
-    matchingItem.deliveryOptionId = deliveryOptionId;
-
+  // ✅ FIXED VERSION
+  resetCart() {
+    this.cartItems = [];
     this.saveToStorage();
   }
+
+  // ✅ OPTIONAL (from cart.js idea)
+  loadCartFetch = async () => {
+    const response = await fetch("https://supersimplebackend.dev/cart");
+    return await response.text();
+  };
 }
 
+// ✅ SINGLE SOURCE OF TRUTH
 export const cart = new Cart("cart");
-//const businessCart = new Cart("cart-business ");
-
-// console.log(cart);
-// console.log(businessCart);
-
-// console.log(businessCart instanceof Cart);
-
-
-// inheritance == lets us reuse code between classes
-// Polymorphism = use a method without knowing the class
-//built in classes= classes that are provided by the language
-// Date() 
-// .toLocaleTimeString() - gives the current time
-// arrow fnctions do not change the value of "this"

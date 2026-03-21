@@ -15,8 +15,10 @@ async function loadPage() {
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
+
 }
 loadPage();
+  
 /*
 Promise.all([
   loadProductsFetch(),

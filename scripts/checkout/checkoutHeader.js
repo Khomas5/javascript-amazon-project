@@ -1,15 +1,13 @@
-import { cart } from "../../data/cart.js";
+import { cart } from "../../data/cart-class.js";
 
-export function renderCheckoutHeader(){
-    let cartQuantity = 0; 
+export function renderCheckoutHeader() {
+  let cartQuantity = 0;
 
-    cart.forEach((cartItem) => {
-        cartQuantity += cartItem.quantity;
-        
-    });
+  cart.cartItems.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
 
-    const checkoutHeaderHTML =
-    `
+  const checkoutHeaderHTML = `
     <div class="header-content">
         <div class="checkout-header-left-section">
           <a href="amazon.html">
@@ -29,9 +27,5 @@ export function renderCheckoutHeader(){
       </div>
     
     `;
-    document.querySelector('.js-checkout-header').innerHTML = checkoutHeaderHTML;
+  document.querySelector(".js-checkout-header").innerHTML = checkoutHeaderHTML;
 }
-
-
-
-
