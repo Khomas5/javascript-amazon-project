@@ -2,7 +2,10 @@ import { cart } from "../data/cart-class.js";
 import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
+
 loadProducts(renderProductsGrid);
+
+
 
 function renderProductsGrid() {
   let productsHTML = "";
@@ -31,7 +34,7 @@ function renderProductsGrid() {
   }
 
   filteredProducts.forEach((product) => {
-    productsHTML = productsHTML += `
+    productsHTML += `
    <div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
@@ -73,7 +76,7 @@ function renderProductsGrid() {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -88,14 +91,16 @@ function renderProductsGrid() {
   });
 
   document.querySelector(".js-products-grid").innerHTML = productsHTML;
-updateCartQuantity();
-  function updateCartQuantity() {
-    let cartQuantity = 0;
+  // update cart quantity on page load
+  updateCartQuantity();
 
-    cart.cartItems.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
-    });
-    // const cartQuantity = calculateCartQuantity();
+  function updateCartQuantity() {
+    // let cartQuantity = 0;
+
+    // cart.cartItems.forEach((cartItem) => {
+    //   cartQuantity += cartItem.quantity;
+    // });
+    const cartQuantity = cart.calculateCartQuantity();
 
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 
@@ -106,11 +111,69 @@ updateCartQuantity();
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
 
-      cart.addToCart(productId);
+      // Read selected quantity
+      const quantitySelect = button
+        .closest(".product-container")
+        .querySelector("select");
+      const quantity = Number(quantitySelect.value);
+
+      cart.addToCart(productId, quantity);
       updateCartQuantity();
     });
   });
+
+
+const buttonTextTimeouts = {};
+
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+    console.log("Button clicked!"); // Debug message 1
+    
+    const productId = button.dataset.productId;
+    const container = button.closest(".product-container");
+    const quantitySelect = container.querySelector("select");
+    const quantity = Number(quantitySelect.value);
+
+    console.log(`Adding Product: ${productId}, Quantity: ${quantity}`); // Debug message 2
+
+    cart.addToCart(productId, quantity);
+    updateCartQuantity();
+
+    // --- Visual Change ---
+    const originalText = button.innerHTML;
+    
+    // Change text and force styles directly
+    button.innerHTML = 'Added';
+    button.style.backgroundColor = 'white';
+    button.style.color = 'black';
+    button.style.border = '1px solid rgb(213, 217, 217)';
+
+    if (buttonTextTimeouts[productId]) {
+      clearTimeout(buttonTextTimeouts[productId]);
+    }
+
+    const timeoutId = setTimeout(() => {
+      button.innerHTML = originalText;
+      // Reset styles (removing the inline styles lets CSS take over again)
+      button.style.backgroundColor = '';
+      button.style.color = '';
+      button.style.border = '';
+    }, 2000);
+
+    buttonTextTimeouts[productId] = timeoutId;
+  });
+});
 }
+
+
+
+
+
+
+
+
+
+
 
 document.querySelector(".js-search-button").addEventListener("click", () => {
   const search = document.querySelector(".js-search-bar").ariaValueMax;
@@ -125,3 +188,5 @@ document
       window.location.href = `amazon.html?search=${searchTerm}`;
     }
   });
+
+

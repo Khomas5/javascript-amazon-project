@@ -30,7 +30,7 @@ export class Cart {
     localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
-  addToCart(productId) {
+  addToCart(productId, quantity) {
     let matchingItem;
 
     this.cartItems.forEach((cartItem) => {
@@ -40,11 +40,11 @@ export class Cart {
     });
 
     if (matchingItem) {
-      matchingItem.quantity += 1;
+      matchingItem.quantity += quantity;
     } else {
       this.cartItems.push({
         productId: productId,
-        quantity: 1,
+        quantity: quantity,
         deliveryOptionId: "1",
       });
     }
@@ -71,12 +71,16 @@ export class Cart {
   }
 
   updateQuantity(productId, newQuantity) {
-    const item = this.cartItems.find(
-      (cartItem) => cartItem.productId === productId
-    );
+    let matchinItem;
 
-    if (item) {
-      item.quantity = newQuantity;
+     this.cartItems.forEach((cartItem) => { 
+     if(productId === cartItem.productId){
+      matchinItem = cartItem;
+     }
+     });
+
+    if (matchinItem) {
+      matchinItem.quantity = newQuantity;
       this.saveToStorage();
     }
   }
