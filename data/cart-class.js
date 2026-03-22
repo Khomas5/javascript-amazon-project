@@ -54,7 +54,7 @@ export class Cart {
 
   removeFromCart(productId) {
     this.cartItems = this.cartItems.filter(
-      (item) => item.productId !== productId
+      (item) => item.productId !== productId,
     );
 
     this.saveToStorage();
@@ -73,11 +73,11 @@ export class Cart {
   updateQuantity(productId, newQuantity) {
     let matchinItem;
 
-     this.cartItems.forEach((cartItem) => { 
-     if(productId === cartItem.productId){
-      matchinItem = cartItem;
-     }
-     });
+    this.cartItems.forEach((cartItem) => {
+      if (productId === cartItem.productId) {
+        matchinItem = cartItem;
+      }
+    });
 
     if (matchinItem) {
       matchinItem.quantity = newQuantity;
@@ -87,7 +87,7 @@ export class Cart {
 
   updateDeliveryOption(productId, deliveryOptionId) {
     const item = this.cartItems.find(
-      (cartItem) => cartItem.productId === productId
+      (cartItem) => cartItem.productId === productId,
     );
 
     if (item) {

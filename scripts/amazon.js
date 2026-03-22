@@ -2,10 +2,7 @@ import { cart } from "../data/cart-class.js";
 import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
-
 loadProducts(renderProductsGrid);
-
-
 
 function renderProductsGrid() {
   let productsHTML = "";
@@ -122,58 +119,47 @@ function renderProductsGrid() {
     });
   });
 
+  const buttonTextTimeouts = {};
 
-const buttonTextTimeouts = {};
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+    button.addEventListener("click", () => {
+      console.log("Button clicked!"); // Debug message 1
 
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    console.log("Button clicked!"); // Debug message 1
-    
-    const productId = button.dataset.productId;
-    const container = button.closest(".product-container");
-    const quantitySelect = container.querySelector("select");
-    const quantity = Number(quantitySelect.value);
+      const productId = button.dataset.productId;
+      const container = button.closest(".product-container");
+      const quantitySelect = container.querySelector("select");
+      const quantity = Number(quantitySelect.value);
 
-    console.log(`Adding Product: ${productId}, Quantity: ${quantity}`); // Debug message 2
+      console.log(`Adding Product: ${productId}, Quantity: ${quantity}`); // Debug message 2
 
-    cart.addToCart(productId, quantity);
-    updateCartQuantity();
+      cart.addToCart(productId, quantity);
+      updateCartQuantity();
 
-    // --- Visual Change ---
-    const originalText = button.innerHTML;
-    
-    // Change text and force styles directly
-    button.innerHTML = 'Added';
-    button.style.backgroundColor = 'white';
-    button.style.color = 'black';
-    button.style.border = '1px solid rgb(213, 217, 217)';
+      // --- Visual Change ---
+      const originalText = button.innerHTML;
 
-    if (buttonTextTimeouts[productId]) {
-      clearTimeout(buttonTextTimeouts[productId]);
-    }
+      // Change text and force styles directly
+      button.innerHTML = "Added";
+      button.style.backgroundColor = "white";
+      button.style.color = "black";
+      button.style.border = "1px solid rgb(213, 217, 217)";
 
-    const timeoutId = setTimeout(() => {
-      button.innerHTML = originalText;
-      // Reset styles (removing the inline styles lets CSS take over again)
-      button.style.backgroundColor = '';
-      button.style.color = '';
-      button.style.border = '';
-    }, 2000);
+      if (buttonTextTimeouts[productId]) {
+        clearTimeout(buttonTextTimeouts[productId]);
+      }
 
-    buttonTextTimeouts[productId] = timeoutId;
+      const timeoutId = setTimeout(() => {
+        button.innerHTML = originalText;
+        // Reset styles (removing the inline styles lets CSS take over again)
+        button.style.backgroundColor = "";
+        button.style.color = "";
+        button.style.border = "";
+      }, 2000);
+
+      buttonTextTimeouts[productId] = timeoutId;
+    });
   });
-});
 }
-
-
-
-
-
-
-
-
-
-
 
 document.querySelector(".js-search-button").addEventListener("click", () => {
   const search = document.querySelector(".js-search-bar").ariaValueMax;
@@ -188,5 +174,3 @@ document
       window.location.href = `amazon.html?search=${searchTerm}`;
     }
   });
-
-

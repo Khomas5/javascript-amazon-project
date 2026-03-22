@@ -179,7 +179,7 @@ name="delivery-option-${matchingProduct.id}"
       // updateCartQuantity();
 
       //short version
-      
+
       renderCheckoutHeader();
       renderOrderSummary();
       renderPaymentSummary();

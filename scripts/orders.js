@@ -1,18 +1,17 @@
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import { orders } from "../data/orders.js";
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {formatCurrency} from "./utils/money.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { formatCurrency } from "./utils/money.js";
 import { addToCart } from "../data/cart.js";
 
-
 async function loadPage() {
-    await loadProductsFetch();
+  await loadProductsFetch();
 
-    let ordersHTML = '';
-    orders.forEach((order) => {
-        const orderTimeString = dayjs(order.orderTime).format('MMMM D');
+  let ordersHTML = "";
+  orders.forEach((order) => {
+    const orderTimeString = dayjs(order.orderTime).format("MMMM D");
 
-        ordersHTML += `
+    ordersHTML += `
           
         <div class="order-container">
           
@@ -39,16 +38,15 @@ async function loadPage() {
             </div>
 </div>
 `;
-    });
+  });
 
-    function productsListHTML(order){
-        let productsListHTML = '';
+  function productsListHTML(order) {
+    let productsListHTML = "";
 
-        order.products.forEach((productDetails) => {
-            const product = getProduct(productDetails.productId);
+    order.products.forEach((productDetails) => {
+      const product = getProduct(productDetails.productId);
 
-
-            productsListHTML += `
+      productsListHTML += `
              <div class="product-image-container">
               <img src="${product.image}">
             </div>
@@ -58,9 +56,9 @@ async function loadPage() {
                ${product.name}
               </div>
               <div class="product-delivery-date">
-                Arriving on: ${
-                    dayjs(productDetails.estimatedDeliveryTime).format('MMMM D')
-                }
+                Arriving on: ${dayjs(
+                  productDetails.estimatedDeliveryTime,
+                ).format("MMMM D")}
               </div>
               <div class="product-quantity">
                 Quantity: ${productDetails.quantity}
@@ -81,27 +79,25 @@ async function loadPage() {
               </a>
             </div>
             `;
-        });
+    });
 
-        return productsListHTML;
-    }
+    return productsListHTML;
+  }
 
-document.querySelector('.js-orders-grid').innerHTML = ordersHTML;
+  document.querySelector(".js-orders-grid").innerHTML = ordersHTML;
 
+  document.querySelectorAll(".js-buy-again").forEach((button) => {
+    button.addEventListener("click", () => {
+      addToCart(button.dataset.productId);
 
-document.querySelectorAll('.js-buy-again').forEach((button) => {
-button.addEventListener('click', () => {
-    addToCart(button.dataset.productId);
-
-    button.innerHTML = 'Added';
-    setTimeout(() => {
+      button.innerHTML = "Added";
+      setTimeout(() => {
         button.innerHTML = `
           <img class="buy-again-icon" src="images/icons/buy-again.png">
           <span class="buy-again-message">Buy it again</span>
         `;
-    }, 1000)
-})
-})
+      }, 1000);
+    });
+  });
 }
 loadPage();
-

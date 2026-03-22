@@ -24,7 +24,8 @@ async function loadPage() {
   const percentProgress =
     ((today - orderTime) / (deliveryTime - orderTime)) * 100;
 
-    const deliveredMessage = today < deliveryTime ? 'Arriving on' : 'Delivered on';
+  const deliveredMessage =
+    today < deliveryTime ? "Arriving on" : "Delivered on";
   const trackingHTML = `
      <a class="back-to-orders-link link-primary" href="orders.html">
           View all orders
@@ -51,7 +52,7 @@ async function loadPage() {
           <div class="progress-label ${percentProgress >= 50 && percentProgress < 100 ? "current-status" : ""}">
             Shipped
           </div>
-          <div class="progress-label ${percentProgress >= 100 ? 'current-status' : ''}">
+          <div class="progress-label ${percentProgress >= 100 ? "current-status" : ""}">
             Delivered
           </div>
         </div>
