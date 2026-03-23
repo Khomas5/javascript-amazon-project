@@ -2,44 +2,48 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Amazon Project</title>
+    <title>Online Shopping Practice Project</title>
     <link rel="icon" type="image/png" href="images/icons/logo.png" />
-    <!-- This code is needed for responsive design to work.
-      (Responsive design = make the website look good on
-      smaller screen sizes like a phone or a tablet). -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Load a font called Roboto from Google Fonts. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 
-    <!-- Here are the CSS files for this page. -->
     <link rel="stylesheet" href="styles/shared/general.css" />
     <link rel="stylesheet" href="styles/shared/amazon-header.css" />
     <link rel="stylesheet" href="styles/pages/amazon.css" />
   </head>
   <body>
+    <div style="position: fixed; 
+  top: 1; 
+  left: 0; 
+  right: 0; 
+  z-index: 1000; 
+  background: #ff9900; 
+  color: #fff; 
+  text-align: center; 
+  padding: 12px; 
+  font-weight: bold; 
+  font-family: Roboto, sans-serif; 
+  font-size: 14px;">
+       ⚠️ Educational Portfolio Demo: This is a static front-end coding exercise. It does not process real data.
+    </div>
+
     <div class="amazon-header">
       <div class="amazon-header-left-section">
         <a href="index.html" class="header-link">
-          <img class="amazon-logo" src="images/amazon-logo-white.png" />
+             <!-- <img class="amazon-logo" src="images/amazon-logo-white.png" />
           <img
             class="amazon-mobile-logo"
             src="images/amazon-mobile-logo-white.png"
-          />
+          /> -->
+          <span style="font-size: 24px; font-weight: bold; color: white;">Website</span>
         </a>
       </div>
 
       <div class="amazon-header-middle-section">
-        <input
-          class="search-bar js-search-bar"
-          type="text"
-          placeholder="Search"
-        />
+        <input class="search-bar js-search-bar" type="text" placeholder="Search item..." />
 
         <button class="search-button js-search-button">
           <img class="search-icon" src="images/icons/search-icon.png" />
